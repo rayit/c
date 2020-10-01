@@ -1,0 +1,19 @@
+#! /bin/sh
+
+mkdir build
+cc -static -g -W -Wall -Wextra -o build/hello_world hello_world.c
+doas install -o www -g www -m 0500 build/hello_world /var/www/cgi-bin
+
+# sqlite_version 1
+cc -static -g -W -Wall -Wextra -o build/sqlite_version sqlite_version.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
+doas install -o www -g www -m 0500 build/sqlite_version /var/www/cgi-bin
+
+# sqlite_version 2
+cc -static -g -W -Wall -Wextra -o build/sqlite_version2 sqlite_version2.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
+doas install -o www -g www -m 0500 build/sqlite_version2 /var/www/cgi-bin
+
+
+doas rcctl enable slowcgi
+doas rcctl start slowcgi
+doas rcctl check slowcgi
+doas rcctl restart httpd
