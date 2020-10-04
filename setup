@@ -12,6 +12,13 @@ doas install -o www -g www -m 0500 build/sqlite_version /var/www/cgi-bin
 cc -static -g -W -Wall -Wextra -o build/sqlite_version2 sqlite_version2.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
 doas install -o www -g www -m 0500 build/sqlite_version2 /var/www/cgi-bin
 
+# insert_data
+cc -static -g -W -Wall -Wextra -o build/insert_data insert_data.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
+doas install -o www -g www -m 0500 build/insert_data /var/www/cgi-bin
+
+# db_example
+#cc -static -g -W -Wall -Wextra -o build/db_example db_example.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm -lksql
+#doas install -o www -g www -m 0500 build/db_example /var/www/cgi-bin
 
 doas rcctl enable slowcgi
 doas rcctl start slowcgi
