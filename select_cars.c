@@ -54,6 +54,7 @@ int main(void) {
     
     sqlite3_prepare_v2(db, "SELECT * FROM Cars;", -1, &stmt, 0);
     int id;
+    int price;
     const unsigned char* name; 
     int count = 0;
     puts("[");
@@ -64,12 +65,14 @@ int main(void) {
         count++;
         id = sqlite3_column_int(stmt, 0);
         name = sqlite3_column_text(stmt, 1);
-        // name = sqlite3_column_string(stmt, 1);
+        price = sqlite3_column_int(stmt, 2);
         puts("{");
         puts("\r");
         printf("\"id\" : %i", id);
         puts(",");
         printf("\"name\" : \"%s\"", name);
+        puts(",");
+        printf("\"price\" : %i", price);
         puts("\r");
         puts("}");
     }
