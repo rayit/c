@@ -1,5 +1,4 @@
 
-
 CREATE TABLE hits (
 	hits INTEGER NOT NULL
 );

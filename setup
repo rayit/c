@@ -17,8 +17,12 @@ cc -static -g -W -Wall -Wextra -o build/insert_data insert_data.c -I /usr/local/
 doas install -o www -g www -m 0500 build/insert_data /var/www/cgi-bin
 
 # db_example
-#cc -static -g -W -Wall -Wextra -o build/db_example db_example.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm -lksql
-#doas install -o www -g www -m 0500 build/db_example /var/www/cgi-bin
+cc -static -g -W -Wall -Wextra -o build/select_cars select_cars.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
+doas install -o www -g www -m 0500 build/select_cars /var/www/cgi-bin
+
+# simple
+gcc -I/usr/local/include -static -o build/simple simple.c -L/usr/local/lib -lksql -lsqlite3
+doas install -o www -g www -m 0500 build/simple /var/www/cgi-bin
 
 doas rcctl enable slowcgi
 doas rcctl start slowcgi

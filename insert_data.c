@@ -37,16 +37,11 @@ int main(void) {
     rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
     
     if (rc != SQLITE_OK ) {
-        
-        sqlite3_free(err_msg);        
-        sqlite3_close(db);
-
-	puts("Status: 500 Internal Server Error\r");
+	    puts("Status: 500 Internal Server Error\r");
         puts("Content-Type: text/html\r");
-	puts("\r");
-	puts("SQLITE ! OK");
-	fprintf(stderr, "SQL error: %s\n", err_msg);
-        
+	    puts("\r");
+	    puts("SQLITE ! OK");
+	    puts(err_msg);
         return 1;
     } 
     
