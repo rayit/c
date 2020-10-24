@@ -4,25 +4,25 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-static int callback(void* data, int argc, char** argv, char** azColName)
-{
-
-    int i;
-    fprintf(stderr, "%s: ", (const char*)data);
-
-    for (i = 0; i < argc; i++) {
-        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-    }
-
-    printf("\n");
-    return 0;
-}
+// static int callback(void* data, int argc, char** argv, char** azColName)
+// {
+// 
+//     int i;
+//     fprintf(stderr, "%s: ", (const char*)data);
+// 
+//     for (i = 0; i < argc; i++) {
+//         printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+//     }
+// 
+//     printf("\n");
+//     return 0;
+// }
 
 int main(void) {
 
     sqlite3 *db;
     sqlite3_stmt* stmt;
-    char *err_msg = 0;
+    // char *err_msg = 0;
 
     int rc = sqlite3_open("/cgi-bin/test.db", &db);
 
@@ -35,8 +35,8 @@ int main(void) {
         puts(sqlite3_errmsg(db));
         return 1;
     }
-
-    char *sql = "SELECT * FROM Cars;";
+/*
+    char *sql = "SELECT * FROM Cars;";*/
 
     puts("Status: 200 OK\r");
     puts("Content-Type: application/json\r");
@@ -54,7 +54,7 @@ int main(void) {
     
     sqlite3_prepare_v2(db, "SELECT * FROM Cars;", -1, &stmt, 0);
     int id;
-    char* name; 
+    const unsigned char* name; 
     int count = 0;
     puts("[");
     while(sqlite3_step(stmt) != SQLITE_DONE) {
