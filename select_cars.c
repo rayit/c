@@ -4,28 +4,14 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-// static int callback(void* data, int argc, char** argv, char** azColName)
-// {
-// 
-//     int i;
-//     fprintf(stderr, "%s: ", (const char*)data);
-// 
-//     for (i = 0; i < argc; i++) {
-//         printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-//     }
-// 
-//     printf("\n");
-//     return 0;
-// }
-
 int main(void) {
 
     sqlite3 *db;
     sqlite3_stmt* stmt;
-    // char *err_msg = 0;
 
+    // sqlite3 open
     int rc = sqlite3_open("/cgi-bin/test.db", &db);
-
+    // Error
     if (rc != SQLITE_OK) {
         sqlite3_close(db);
         puts("Status: 500 Internal Server Error\r");
@@ -35,28 +21,17 @@ int main(void) {
         puts(sqlite3_errmsg(db));
         return 1;
     }
-/*
-    char *sql = "SELECT * FROM Cars;";*/
-
+    // Output status 200
     puts("Status: 200 OK\r");
     puts("Content-Type: application/json\r");
     puts("\r");
-    // rc = sqlite3_exec(db, sql, callback, 0, &err_msg);
-
-//     if (rc != SQLITE_OK ) {
-//         puts("Status: 500 Internal Server Error\r");
-//         puts("Content-Type: text/html\r");
-//         puts("\r");
-//         puts("SQLITE ! OK");
-//         puts(err_msg);
-//         return 1;
-//     }
-    
+    // sqlite prepare query
     sqlite3_prepare_v2(db, "SELECT * FROM Cars;", -1, &stmt, 0);
     int id;
     int price;
     const unsigned char* name; 
     int count = 0;
+    // Loop and create json
     puts("[");
     while(sqlite3_step(stmt) != SQLITE_DONE) {
         if(SQLITE_ROW && count > 0) {
@@ -77,6 +52,7 @@ int main(void) {
         puts("}");
     }
     puts("]");
+    // sqlite3 close
     sqlite3_close(db);
     return 0;
 }
