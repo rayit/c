@@ -4,7 +4,6 @@ OpenBSD c and sqlite3
 Dependencies: 
 doas
 
-pkg_add ksql
 
 \etc\httpd.conf
 ```

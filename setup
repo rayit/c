@@ -24,6 +24,12 @@ doas install -o www -g www -m 0500 build/select_cars /var/www/cgi-bin
 gcc -I/usr/local/include -static -o build/simple simple.c -L/usr/local/lib -lksql -lsqlite3
 doas install -o www -g www -m 0500 build/simple /var/www/cgi-bin
 
+# login
+g++ -I/usr/local/include -static -o build/login login.c -L/usr/local/lib -lsqlite3
+doas install -o www -g www -m 0500 build/login /var/www/cgi-bin
+
+doas install -o www -g www -m 0500 index.html /var/www/htdocs
+
 doas rcctl enable slowcgi
 doas rcctl start slowcgi
 doas rcctl check slowcgi
