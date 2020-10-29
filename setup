@@ -17,6 +17,9 @@ g++ -I/usr/local/include -static -o build/login login.c -L/usr/local/lib -lsqlit
 doas install -o www -g www -m 0500 build/login /var/www/cgi-bin
 
 doas install -o www -g www -m 0500 index.html /var/www/htdocs
+doas install -o www -g www -m 0500 todo.html /var/www/htdocs/todo.html
+doas install -o www -g www -m 0500 app.js /var/www/htdocs/app.js
+doas install -o www -g www -m 0500 styles.css /var/www/htdocs/styles.css
 
 # somehow sqlite3 does not work when main folder is not writable by www
 doas chown www /var/www/cgi-bin
