@@ -1,5 +1,10 @@
 # c
-OpenBSD c and sqlite3
+## OpenBSD c and sqlite3
+
+Goal is to make an easy website which uses c++ as backend. \
+- Create DB 
+- Login 
+- Show data
 
 Dependencies: 
 doas

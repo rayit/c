@@ -4,31 +4,22 @@ mkdir build
 cc -static -g -W -Wall -Wextra -o build/hello_world hello_world.c
 doas install -o www -g www -m 0500 build/hello_world /var/www/cgi-bin
 
-# sqlite_version 1
-cc -static -g -W -Wall -Wextra -o build/sqlite_version sqlite_version.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
-doas install -o www -g www -m 0500 build/sqlite_version /var/www/cgi-bin
-
-# sqlite_version 2
-cc -static -g -W -Wall -Wextra -o build/sqlite_version2 sqlite_version2.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
-doas install -o www -g www -m 0500 build/sqlite_version2 /var/www/cgi-bin
-
 # insert_data
-cc -static -g -W -Wall -Wextra -o build/insert_data insert_data.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
+gcc -static -g -W -Wall -Wextra -o build/insert_data insert_data.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
 doas install -o www -g www -m 0500 build/insert_data /var/www/cgi-bin
 
 # db_example
 cc -static -g -W -Wall -Wextra -o build/select_cars select_cars.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
 doas install -o www -g www -m 0500 build/select_cars /var/www/cgi-bin
 
-# simple
-gcc -I/usr/local/include -static -o build/simple simple.c -L/usr/local/lib -lksql -lsqlite3
-doas install -o www -g www -m 0500 build/simple /var/www/cgi-bin
-
 # login
 g++ -I/usr/local/include -static -o build/login login.c -L/usr/local/lib -lsqlite3
 doas install -o www -g www -m 0500 build/login /var/www/cgi-bin
 
 doas install -o www -g www -m 0500 index.html /var/www/htdocs
+
+# somehow sqlite3 does not work when main folder is not writable by www
+doas chown www /var/www/cgi-bin
 
 doas rcctl enable slowcgi
 doas rcctl start slowcgi
