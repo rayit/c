@@ -9,6 +9,8 @@ Goal is to make an easy website which uses c++ as backend. \
 Dependencies: 
 doas
 
+doas pkg_add git
+doas rcctl enable httpd
 
 \etc\httpd.conf
 ```
