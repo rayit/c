@@ -10,8 +10,8 @@ export default class Login {
 
     handleSubmitForm(e) {
         e.preventDefault();
-        let username = this.loginForm.querySelector('input[name="username"]');
-        let password = this.loginForm.querySelector('input[name="password"]');
+        let username = this.loginForm.querySelector('input[name="username"]').value``;
+        let password = this.loginForm.querySelector('input[name="password"]').value;
         this.login("POST", "/cgi-bin/login", username, password);
     }
 
