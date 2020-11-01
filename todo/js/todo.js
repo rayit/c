@@ -1,11 +1,16 @@
 export default class Todo {
+
+    todos = null;
+
     constructor() {
-	    this.getCars();
+        // Load data from DB
+	    this.todos = this.getTodos();
 	    // Selectors
-	    document.querySelector('form').addEventListener('submit', this.handleSubmitForm);
+	    document.getElementById('todoForm').addEventListener('submit', this.handleSubmitForm.bind(this));
     }
-	async getCars() {
-	  this.cars = await this.loadData('get', 'http://80.240.27.253/cgi-bin/select_cars');
+
+	async getTodos() {
+	  this.cars = await this.loadData('get', './cgi-bin/select_todos');
 	  this.cars = JSON.parse(this.cars);
 	  for(let car of this.cars) {
 		console.log(car);
