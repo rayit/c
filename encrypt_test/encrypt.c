@@ -60,13 +60,14 @@ int main()
 	aes_inv_cipher(out, in, w);
 
 	printf("Original message (after inv cipher):\n");
-// 	for (i = 0; i < 2; i++) {
-// 		printf("%02x %02x %02x %02x ", in[4*i+0], in[4*i+1], in[4*i+2], in[4*i+3]);
-// 	}
-	for (i = 0; i < 4; i++) {
-        printf("%02x", in[i]);
+ 	for (i = 0; i < 2; i++) {
+ 		printf("%02x %02x %02x %02x ", in[4*i+0], in[4*i+1], in[4*i+2], in[4*i+3]);
+ 	}
+//	for (i = 0; i < 4; i++) {
+  //      printf("%02x", in[i]);
        // printf("%s", in[i]);
-    }
+    //}
+    //	
 	printf("\n");
 
 	free(w);

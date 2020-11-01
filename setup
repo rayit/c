@@ -1,12 +1,13 @@
 #! /bin/sh
+DIR="./build"
+DIR_CGI="/var/www/cgi-bin"
+DIR_WWW="/var/www/htdocs"
+DIR_TODO="/var/www/htdocs/todo"
+[ ! -d "$DIR" ] && mkdir -p "$DIR"
 
-mkdir build
-cc -static -g -W -Wall -Wextra -o build/hello_world hello_world.c
-doas install -o www -g www -m 0500 build/hello_world /var/www/cgi-bin
-
-# insert_data
-gcc -static -g -W -Wall -Wextra -o build/insert_data insert_data.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
-doas install -o www -g www -m 0500 build/insert_data /var/www/cgi-bin
+# DB setup
+gcc -static -g -W -Wall -Wextra -o build/db_setup db_setup.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
+doas install -o www -g www -m 0500 build/db_setup $DIR_CGI
 
 # db_example
 cc -static -g -W -Wall -Wextra -o build/select_cars select_cars.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
@@ -17,8 +18,10 @@ g++ -I/usr/local/include -static -o build/login login.c -L/usr/local/lib -lsqlit
 doas install -o www -g www -m 0500 build/login /var/www/cgi-bin
 
 doas install -o www -g www -m 0500 index.html /var/www/htdocs
-doas mkdir /var/www/htdocs/todo
-doas install -o www -g www -m 0500 todo/* /var/www/htdocs/todo/*
+doas [ ! -d "$DIR_TODO" ] && mkdir "$DIR_TODO"
+doas chown www:www "$DIR_TODO"
+doas cp -r todo "$DIR_WWW"
+doas chown -R www:www "$DIR_TODO"
 
 # somehow sqlite3 does not work when main folder is not writable by www
 doas chown www /var/www/cgi-bin

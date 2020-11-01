@@ -1,4 +1,5 @@
 import Todo from './todo.js';
+import Login from './login.js';
 
 window.addEventListener("hashchange",  () => {
     console.log('hash')
@@ -9,14 +10,22 @@ window.addEventListener("hashchange",  () => {
         case '#todo':
             loadTodo();
             break;
+	case "#dashboard":
+	    loadHome();
+	    break;
         default:
-            loadHome();
+            loadLogin();
     }
 });
 
 async function fetchHtmlAsText(url) {
     const response = await fetch(url);
     return await response.text();
+}
+
+async function loadLogin() {
+    const contentDiv = document.getElementById("app");
+    contentDiv.innerHTML = await fetchHtmlAsText("views/login.html");
 }
 
 async function loadHome() {
