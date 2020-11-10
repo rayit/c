@@ -10,14 +10,14 @@ gcc -static -g -W -Wall -Wextra -o build/db_setup db_setup.c -I /usr/local/inclu
 doas install -o www -g www -m 0500 build/db_setup $DIR_CGI
 
 # db_example
-cc -static -g -W -Wall -Wextra -o build/select_cars select_cars.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
-doas install -o www -g www -m 0500 build/select_cars /var/www/cgi-bin
+cc -static -g -W -Wall -Wextra -o build/select_todo select_todo.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
+doas install -o www -g www -m 0500 build/select_todo /var/www/cgi-bin
 
 # login
 g++ -I/usr/local/include -static -o build/login login.c -L/usr/local/lib -lsqlite3
 doas install -o www -g www -m 0500 build/login /var/www/cgi-bin
 
-doas install -o www -g www -m 0500 index.html /var/www/htdocs
+# ### doas install -o www -g www -m 0500 index.html /var/www/htdocs
 doas [ ! -d "$DIR_TODO" ] && mkdir "$DIR_TODO"
 doas chown www:www "$DIR_TODO"
 doas cp -r todo "$DIR_WWW"

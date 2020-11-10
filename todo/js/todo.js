@@ -10,7 +10,7 @@ export default class Todo {
     }
 
 	async getTodos() {
-	  this.cars = await this.loadData('get', './cgi-bin/select_todos');
+	  this.cars = await this.loadData('get', '/cgi-bin/select_todo');
 	  this.cars = JSON.parse(this.cars);
 	  for(let car of this.cars) {
 		console.log(car);

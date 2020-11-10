@@ -20,37 +20,37 @@ int main(void) {
     }
 
     char *sql =
-                "PRAGMA key = 'crackmeraye';"
-                "PRAGMA cipher = 'aes-256-cfb';"
-                "PRAGMA kdf_iter = '1000';"
+        "PRAGMA key = 'crackmeraye';"
+        "PRAGMA cipher = 'aes-256-cfb';"
+        "PRAGMA kdf_iter = '1000';"
 
-                "DROP TABLE IF EXISTS Cars;"
-                "CREATE TABLE Cars(Id INT, Name TEXT, Price INT);"
-                "INSERT INTO Cars VALUES(1, 'Audi', 52642);"
-                "INSERT INTO Cars VALUES(2, 'Mercedes', 57127);"
-                "INSERT INTO Cars VALUES(3, 'Skoda', 9000);"
-                "INSERT INTO Cars VALUES(4, 'Volvo', 29000);"
-                "INSERT INTO Cars VALUES(5, 'Bentley', 350000);"
-                "INSERT INTO Cars VALUES(6, 'Citroen', 21000);"
-                "INSERT INTO Cars VALUES(7, 'Hummer', 41400);"
-                "INSERT INTO Cars VALUES(8, 'Volkswagen', 21600);"
+        "DROP TABLE IF EXISTS Todos;"
+        "CREATE TABLE Todos(Id INT, Name TEXT);"
+        "INSERT INTO Todos VALUES(1, 'Audi');"
+        "INSERT INTO Todos VALUES(2, 'Mercedes');"
+        "INSERT INTO Todos VALUES(3, 'Skoda');"
+        "INSERT INTO Todos VALUES(4, 'Volvo');"
+        "INSERT INTO Todos VALUES(5, 'Bentley');"
+        "INSERT INTO Todos VALUES(6, 'Citroen');"
+        "INSERT INTO Todos VALUES(7, 'Hummer');"
+        "INSERT INTO Todos VALUES(8, 'Volkswagen');"
 
-                "DROP TABLE IF EXISTS Users;"
+        "DROP TABLE IF EXISTS Users;"
 
-                "BEGIN TRANSACTION;"
-                "CREATE TABLE Users(Id INTEGER PRIMARY KEY NOT NULL , Username TEXT NOT NULL, Password TEXT NOT NULL);"
-                "END TRANSACTION;"
-                "INSERT INTO Users VALUES(1, 'admin', 21600);";
-
+        "BEGIN TRANSACTION;"
+        "CREATE TABLE Users(Id INTEGER PRIMARY KEY NOT NULL , Username TEXT "
+        "NOT NULL, Password TEXT NOT NULL);"
+        "END TRANSACTION;"
+        "INSERT INTO Users VALUES(1, 'admin', 'ray');";
 
     rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
 
-    if (rc != SQLITE_OK ) {
-	    puts("Status: 500 Internal Server Error\r");
+    if (rc != SQLITE_OK) {
+        puts("Status: 500 Internal Server Error\r");
         puts("Content-Type: text/html\r");
-	    puts("\r");
-	    puts("SQLITE ! OK");
-	    puts(err_msg);
+        puts("\r");
+        puts("SQLITE ! OK");
+        puts(err_msg);
         return 1;
     }
 
@@ -58,6 +58,6 @@ int main(void) {
     puts("Status: 200 OK\r");
     puts("Content-Type: text/html\r");
     puts("\r");
-    puts("Database test created and table Cars created\n");
+    puts("Database test created and table Todos and Users created\n");
     return 0;
 }

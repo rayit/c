@@ -26,28 +26,28 @@ int main(void) {
     puts("Content-Type: application/json\r");
     puts("\r");
     // sqlite prepare query
-    sqlite3_prepare_v2(db, "SELECT * FROM Cars;", -1, &stmt, 0);
+    sqlite3_prepare_v2(db, "SELECT * FROM Todos;", -1, &stmt, 0);
     int id;
-    int price;
-    const unsigned char* name; 
+    // int price;
+    const unsigned char* name;
     int count = 0;
     // Loop and create json
     puts("[");
-    while(sqlite3_step(stmt) != SQLITE_DONE) {
-        if(SQLITE_ROW && count > 0) {
-                puts(",");
+    while (sqlite3_step(stmt) != SQLITE_DONE) {
+        if (SQLITE_ROW && count > 0) {
+            puts(",");
         }
         count++;
         id = sqlite3_column_int(stmt, 0);
         name = sqlite3_column_text(stmt, 1);
-        price = sqlite3_column_int(stmt, 2);
+        // price = sqlite3_column_int(stmt, 2);
         puts("{");
         puts("\r");
         printf("\"id\" : %i", id);
         puts(",");
         printf("\"name\" : \"%s\"", name);
-        puts(",");
-        printf("\"price\" : %i", price);
+        // puts(",");
+        // printf("\"price\" : %i", price);
         puts("\r");
         puts("}");
     }
