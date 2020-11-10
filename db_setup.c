@@ -58,6 +58,6 @@ int main(void) {
     puts("Status: 200 OK\r");
     puts("Content-Type: text/html\r");
     puts("\r");
-    puts("Database test created and table Todos and Users created\n");
+    puts("Database test created and table Users and Todos created\n");
     return 0;
 }
