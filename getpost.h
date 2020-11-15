@@ -37,7 +37,7 @@ std::string urlDecode(std::string str)
 	char tmp[5], tmpchar;
 	strcpy(tmp,"0x");
 	int size = str.size();
-	for (i=0; i<size; i++) {
+	for (i=0; i < size; i++) {
 		if (str[i]=='%') {
 			if (i+2<size) {
 				tmp[2]=str[i+1];
@@ -108,7 +108,7 @@ void initializePost(std::map <std::string, std::string> &Post)
 		Post.clear();
 		return;
 	}
-	
+
 	try {
 		buffer = new char[content_length*sizeof(char)];
 	} catch (std::bad_alloc xa) {

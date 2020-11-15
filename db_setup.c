@@ -20,7 +20,7 @@ int main(void) {
     }
 
     char *sql =
-        "PRAGMA key = 'crackmeraye';"
+        "PRAGMA key = 'crackmeray';"
         "PRAGMA cipher = 'aes-256-cfb';"
         "PRAGMA kdf_iter = '1000';"
 
