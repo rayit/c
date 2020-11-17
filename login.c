@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <iostream>
 #include <map>
-#include "getpost.h"
 #include <err.h>
 #include <stdio.h>
 #include <unistd.h>

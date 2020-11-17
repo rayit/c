@@ -1,5 +1,4 @@
 export default class Todo {
-
     todos = null;
 
     constructor() {
@@ -9,14 +8,37 @@ export default class Todo {
 	    document.getElementById('todoForm').addEventListener('submit', this.handleSubmitForm.bind(this));
     }
 
-	async getTodos() {
-	  this.cars = await this.loadData('get', '/cgi-bin/select_todo');
-	  this.cars = JSON.parse(this.cars);
-	  for(let car of this.cars) {
-		console.log(car);
-	  }
-	}
+    // TODO Move to some general class
+    createTable(parentId, columns, data) {
+        // Create and add table
+        let table = document.createElement('table');
+        let header = table.createTHead();
+        let row = header.insertRow(-1);
+        const columnCount = columns.length;
+        for( let i=0; i < columnCount; i++) {
+            let headerCell = document.createElement('th');
+            headerCell.innerText = columns[i].toUpperCase();
+            row.appendChild(headerCell)
+        }
+        let tBody = table.createTBody();
+        let rowCount = data.length;
+        for( let i=0; i < rowCount; i++) {
+            let rowT = tBody.insertRow(-1);
+            for(let j=0;j< columnCount; j++) {
+                let cell = rowT.insertCell(-1);
+                cell.setAttribute('data-label', columns[j].toUpperCase());
+                let obj = data[i];
+                cell.innerText = obj[columns[j]];
+            }
+        }
+        document.getElementById(parentId).appendChild(table);
+    }
 
+	async getTodos() {
+	  let todos = await this.loadData('get', '/cgi-bin/select_todo');
+	  this.todos = JSON.parse(todos);
+	  this.createTable('todoTable', ['id', 'name'], this.todos);
+	}
 
     // Event handler function
     handleSubmitForm(e) {

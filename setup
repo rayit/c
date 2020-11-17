@@ -10,12 +10,21 @@ gcc -static -g -W -Wall -Wextra -o build/db_setup db_setup.c -I /usr/local/inclu
 doas install -o www -g www -m 0500 build/db_setup $DIR_CGI
 
 # db_example
-cc -static -g -W -Wall -Wextra -o build/select_todo select_todo.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
+g++ -static -g -W -Wall -Wextra -o build/select_todo select_todo.c -I /usr/local/include -L /usr/local/lib \
+    -pthread -lsqlite3 -lm -lcgicc
 doas install -o www -g www -m 0500 build/select_todo /var/www/cgi-bin
 
 # login
-g++ -I/usr/local/include -static -o build/login login.c -L/usr/local/lib -lsqlite3
-doas install -o www -g www -m 0500 build/login /var/www/cgi-bin
+#g++ -I/usr/local/include -static -o build/login login.c -L/usr/local/lib -lsqlite3
+#doas install -o www -g www -m 0500 build/login /var/www/cgi-bin
+
+# JSON
+#gcc -static -g -W -Wall -Wextra -o build/json json.c \
+#    -I /usr/local/include -L /usr/local/lib \
+#    -pthread -lsqlite3 -lm `pkg-config --static --libs kcgi`
+#doas install -o www -g www -m 0500 build/json /var/www/cgi-bin
+
+
 
 # ### doas install -o www -g www -m 0500 index.html /var/www/htdocs
 doas [ ! -d "$DIR_TODO" ] && mkdir "$DIR_TODO"
