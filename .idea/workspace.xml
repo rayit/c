@@ -10,9 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d2e8fec8-8484-4e31-8bdf-9fde83d0f668" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/todo/js/components/table.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/todo/js/todo.js" beforeDir="false" afterPath="$PROJECT_DIR$/todo/js/todo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup" beforeDir="false" afterPath="$PROJECT_DIR$/setup" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,11 +58,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/todo/js/todo.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="21" selection-start-column="21" selection-end-column="21" />
+            <state relative-caret-position="96">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
               <folding>
                 <element signature="e#500#700#0" />
                 <element signature="e#735#1151#0" />
@@ -120,11 +118,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/setup">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+            <state relative-caret-position="213">
+              <caret line="13" column="26" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -170,9 +168,9 @@
         <option value="$PROJECT_DIR$/json.c" />
         <option value="$PROJECT_DIR$/login.c" />
         <option value="$PROJECT_DIR$/todo/views/todo.html" />
-        <option value="$PROJECT_DIR$/setup" />
         <option value="$PROJECT_DIR$/todo/js/components/table.js" />
         <option value="$PROJECT_DIR$/todo/js/todo.js" />
+        <option value="$PROJECT_DIR$/setup" />
       </list>
     </option>
   </component>
@@ -282,12 +280,12 @@
       <workItem from="1605561925392" duration="5000" />
       <workItem from="1605561964375" duration="5243000" />
       <workItem from="1605602456182" duration="8000" />
-      <workItem from="1605625630503" duration="2032000" />
+      <workItem from="1605625630503" duration="2185000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14701000" />
+    <option name="totallyTimeSpent" value="14854000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="313" y="71" width="1561" height="948" extended-state="0" />
@@ -393,13 +391,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/json.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -425,12 +416,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/todo/js/todo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="21" selection-start-column="21" selection-end-column="21" />
+        <state relative-caret-position="96">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
           <folding>
             <element signature="e#500#700#0" />
             <element signature="e#735#1151#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="13" column="26" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
         </state>
       </provider>
     </entry>
