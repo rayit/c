@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
   <component name="IdProvider" IDEtalkID="68D5CA7DA6BD0B2028C3E011178C1481" />
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />
