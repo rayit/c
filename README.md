@@ -12,7 +12,7 @@ doas
 doas pkg_add git
 doas rcctl enable httpd
 
-\etc\httpd.conf
+/etc/httpd.conf
 ```
 #[ MACROS ]
 ext_ip = "127.0.0.1"

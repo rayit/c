@@ -24,12 +24,10 @@ doas install -o www -g www -m 0500 build/login /var/www/cgi-bin
 #    -pthread -lsqlite3 -lm `pkg-config --static --libs kcgi`
 #doas install -o www -g www -m 0500 build/json /var/www/cgi-bin
 
-
-
 # ### doas install -o www -g www -m 0500 index.html /var/www/htdocs
-doas [ ! -d "$DIR_TODO" ] && mkdir "$DIR_TODO"
+doas [ ! -d "$DIR_TODO" ] && doas mkdir "$DIR_TODO"
 doas chown www:www "$DIR_TODO"
-doas cp -r todo "$DIR_WWW"
+# doas cp -r todo "$DIR_WWW"
 doas chown -R www:www "$DIR_TODO"
 
 # somehow sqlite3 does not work when main folder is not writable by www
