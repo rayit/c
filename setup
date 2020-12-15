@@ -2,7 +2,6 @@
 DIR="./build"
 DIR_CGI="/var/www/cgi-bin"
 DIR_WWW="/var/www/htdocs"
-DIR_TODO="/var/www/htdocs/todo"
 [ ! -d "$DIR" ] && mkdir -p "$DIR"
 
 # DB setup
@@ -13,22 +12,6 @@ doas install -o www -g www -m 0500 build/db_setup $DIR_CGI
 g++ -static -g -W -Wall -Wextra -o build/select_todo select_todo.c -I /usr/local/include -L /usr/local/lib \
     -pthread -lsqlite3 -lm
 doas install -o www -g www -m 0500 build/select_todo /var/www/cgi-bin
-
-# login
-g++ -I/usr/local/include -static -o build/login login.cpp Db.cpp -L/usr/local/lib -lsqlite3 -lpthread -lm
-doas install -o www -g www -m 0500 build/login /var/www/cgi-bin
-
-# JSON
-#gcc -static -g -W -Wall -Wextra -o build/json json.c \
-#    -I /usr/local/include -L /usr/local/lib \
-#    -pthread -lsqlite3 -lm `pkg-config --static --libs kcgi`
-#doas install -o www -g www -m 0500 build/json /var/www/cgi-bin
-
-# ### doas install -o www -g www -m 0500 index.html /var/www/htdocs
-doas [ ! -d "$DIR_TODO" ] && doas mkdir "$DIR_TODO"
-doas chown www:www "$DIR_TODO"
-# doas cp -r todo "$DIR_WWW"
-doas chown -R www:www "$DIR_TODO"
 
 # somehow sqlite3 does not work when main folder is not writable by www
 doas chown www /var/www/cgi-bin
