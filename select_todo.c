@@ -10,7 +10,7 @@ int main(void) {
     sqlite3_stmt* stmt;
 
     // sqlite3 open
-    int rc = sqlite3_open("/cgi-bin/test.db", &db);
+    int rc = sqlite3_open("/cgi-bin/user.db", &db);
     // Error
     if (rc != SQLITE_OK) {
         sqlite3_close(db);
