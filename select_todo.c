@@ -4,7 +4,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int main(void) {
+int
+main(void) {
 
     sqlite3 *db;
     sqlite3_stmt* stmt;

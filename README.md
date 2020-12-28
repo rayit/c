@@ -4,6 +4,14 @@
 Goal is to make an easy website which uses c++ as backend. \
 - Create DB 
 - Login 
+	1. login
+	2. check username and pw
+		using dcrypt?? or SQLite something
+    3. generate JWT token 
+		l8w8jwt for JWT encoding and decoding
+		see readme howto include in your...
+- Look into PLEDGE
+
 - Show data
 
 Dependencies: 
