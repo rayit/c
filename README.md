@@ -1,24 +1,32 @@
 # c
 ## OpenBSD c and sqlite3
 
-Goal is to make an easy website which uses c++ as backend. \
-- Create DB 
+Goal is to make an easy website which uses c as backend. \
+- Create DB
 - Login 
-	1. login
+	1. login  
+		Endpoint
 	2. check username and pw
-		using dcrypt?? or SQLite something
+		using: [https://man.openbsd.org/crypt_checkpass.3#crypt_newhash]
     3. generate JWT token 
 		l8w8jwt for JWT encoding and decoding
 		see readme howto include in your...
+		
+- Login failure log.. (add fail in log)
+		
 - Look into PLEDGE
 
 - Show data
 
 Dependencies: 
+OpenBSD
+httpd
 doas
 
+```sh
 doas pkg_add git
 doas rcctl enable httpd
+```
 
 /etc/httpd.conf
 ```

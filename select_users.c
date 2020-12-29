@@ -34,9 +34,9 @@ main(void)
 		sqlite3_close(DB);
 		return 1;
 	}
-	sqlite3_prepare_v2(DB, "SELECT * FROM user;", -1, &stmt, 0);
-	int id;
-	const unsigned char* description;
+	sqlite3_prepare_v2(DB, "SELECT username FROM user;", -1, &stmt, 0);
+	// int id;
+	const unsigned char* username;
       
 	khttp_head(&r, kresps[KRESP_STATUS], 
 		"%s", khttps[KHTTP_200]);
@@ -46,12 +46,12 @@ main(void)
 	kjson_open(&req, &r);
 	kjson_array_open(&req);
 	while (sqlite3_step(stmt) != SQLITE_DONE) {
-		id = sqlite3_column_int(stmt, 0);
-		description = sqlite3_column_text(stmt, 1);
+		// id = sqlite3_column_int(stmt, 0);
+		username = sqlite3_column_text(stmt, 0);
 		
 		kjson_obj_open(&req);
-		kjson_putintp(&req, "id", id);
-		kjson_putstringp(&req, "description", description);
+		// kjson_putintp(&req, "id", id);
+		kjson_putstringp(&req, "username", username);
 		kjson_obj_close(&req);
 		
    }

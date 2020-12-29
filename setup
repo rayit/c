@@ -6,21 +6,26 @@ DIR_WWW="/var/www/htdocs"
 
 # DB user setup
 clang -static -g -W -Wall -Wextra -o build/db_setup db_setup.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
+# TODO add column for false login etc...
 doas ./build/db_setup /var/www/tmp/_users.db "create table if not exists user \
 ( \
     id            INTEGER \
         primary key autoincrement, \
-    description   TEXT, \
-    password      TEXT, \
+    username	  TEXT, \
     role_ids      TEXT, \
+    hash		  TEXT, \
     appbeheer     INTEGER default 0 \
 ); \
-INSERT INTO user (description, appbeheer, password) values (\"admin\", 1, \"rayrayray\");
+-- TODO LOOK INTO NOT correct.. INSERT INTO user (username, appbeheer, hash) values (\"admin\", 1, \"$2b$10$t3OiYl0ZugyW5rjjVV0pzOqu8FzL8KaD4xE70p7aLvHcGjq5Pbb6qrayitx1$\");
 "
 
 # kcgi
 clang -static -g -W -Wall -Wextra -o build/select_users select_users.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm  `pkg-config --static --libs kcgi` -lkcgijson
 doas install -o www -g www -m 0500 build/select_users /var/www/cgi-bin
+
+# Authentication
+clang -static -g -W -Wall -Wextra -o build/authenticate authenticate.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm `pkg-config --libs kcgi-html`
+doas install -o www -g www -m 0500 build/authenticate /var/www/cgi-bin
 
 # somehow sqlite3 does not work when main folder is not writable by www
 doas chown www /var/www/cgi-bin
