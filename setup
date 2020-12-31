@@ -27,6 +27,9 @@ doas install -o www -g www -m 0500 build/select_users /var/www/cgi-bin
 clang -static -g -W -Wall -Wextra -o build/authenticate authenticate.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm `pkg-config --libs kcgi-html`
 doas install -o www -g www -m 0500 build/authenticate /var/www/cgi-bin
 
+# jwt test
+clang -static -g -W -Wall -Wextra -o build/jwt jwt.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm  -ljwt -ljansson -lcrypto -lssl `pkg-config --libs kcgi-html`
+
 # somehow sqlite3 does not work when main folder is not writable by www
 doas chown www /var/www/cgi-bin
 

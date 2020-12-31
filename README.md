@@ -9,8 +9,21 @@ Goal is to make an easy website which uses c as backend. \
 	2. check username and pw
 		using: [https://man.openbsd.org/crypt_checkpass.3#crypt_newhash]
     3. generate JWT token 
-		l8w8jwt for JWT encoding and decoding
-		see readme howto include in your...
+		Had to install libjwt
+		git clone https://github.com/benmcollins/libjwt.git
+		cd libjwt
+		cmake .
+		doas cmake install
+		
+		
+		#include <jwt.h>
+		
+		ssh-keygen -t rsa -b 4096 -m PEM -f jwtRS256.key
+		# Don't add passphrase
+		openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
+		
+		cat jwtRS256.key
+		cat jwtRS256.key.pub
 		
 - Login failure log.. (add fail in log)
 		
