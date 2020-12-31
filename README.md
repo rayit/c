@@ -4,7 +4,7 @@
 Goal is to make an easy website which uses c as backend. \
 - Create DB
 - Login 
-	1. login  
+	1. login
 		Endpoint
 	2. check username and pw
 		using: [https://man.openbsd.org/crypt_checkpass.3#crypt_newhash]
@@ -31,7 +31,6 @@ Goal is to make an easy website which uses c as backend. \
 - Login failure log.. (add fail in log)
 		
 - Look into PLEDGE
-
 - Show data
 
 Dependencies: 
@@ -39,12 +38,20 @@ OpenBSD
 httpd
 doas
 
+### doas
+```sh
+vi /etc/doas.conf
+```
+permit persist :wheel
+
+### git doas
 ```sh
 doas pkg_add git
 doas rcctl enable httpd
 ```
 
-/etc/httpd.conf
+
+vi /etc/httpd.conf
 ```
 #[ MACROS ]
 ext_ip = "127.0.0.1"
