@@ -24,6 +24,7 @@ int main(void)
 	key_len = fread(key, 1, sizeof(key), fp_priv_key);
 	fclose(fp_priv_key);
 	key[key_len] = '\0';
+	fprintf(stderr, "priv key loaded %s (%zu)!\n", opt_key_name, key_len);
 	
 	/* add grant */
 	ret = jwt_add_grant_int(jwt, "iat", iat);

@@ -18,12 +18,15 @@ Goal is to make an easy website which uses c as backend. \
 		
 		#include <jwt.h>
 		
-		ssh-keygen -t rsa -b 4096 -m PEM -f jwtRS256.key
+		# ssh-keygen -t rsa -b 4096 -m PEM -f jwtRS256.key
 		# Don't add passphrase
-		openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
+		# openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
 		
-		cat jwtRS256.key
-		cat jwtRS256.key.pub
+		openssl genrsa -out private.pem 2048
+		
+		# extract public
+		openssl rsa -in private.pem -outform PEM -pubout -out public.pem
+
 		
 - Login failure log.. (add fail in log)
 		
