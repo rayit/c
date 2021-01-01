@@ -50,7 +50,6 @@ doas pkg_add git
 doas rcctl enable httpd
 ```
 
-
 vi /etc/httpd.conf
 ```
 #[ MACROS ]
@@ -77,6 +76,8 @@ types {
     include "/usr/share/misc/mime.types"
 }
 ```
+
+doas pkg_add sqlite3
 
 Ispiration and tutorials:
 https://learnbchs.org/

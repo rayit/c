@@ -28,7 +28,7 @@ main(void)
 	//  err(EXIT_FAILURE, "pledge");
    
 	// Sqlite3 open
-	int rc = sqlite3_open("/tmp/_users.db", &DB);
+	int rc = sqlite3_open("/db/_users.db", &DB);
 	if( rc != SQLITE_OK) {
 		printf("Error open DB %s\n", sqlite3_errmsg(DB)); 
 		sqlite3_close(DB);

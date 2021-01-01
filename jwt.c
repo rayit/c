@@ -20,6 +20,7 @@ int main(void)
 	ret = jwt_new(&jwt);
 	
 	/* Load key pem from file */
+	/* TODO check file present */
 	fp_priv_key = fopen(opt_key_name, "r");
 	key_len = fread(key, 1, sizeof(key), fp_priv_key);
 	fclose(fp_priv_key);

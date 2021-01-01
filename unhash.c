@@ -17,17 +17,17 @@ main(void)
 	sqlite3* DB;
 	sqlite3_stmt* stmt;
 	char hash1[61]; 
-	int rc = sqlite3_open("/var/www/tmp/_users.db", &DB);
+	int rc = sqlite3_open("/var/www/db/_users.db", &DB);
 	if( rc != SQLITE_OK) {
 		printf("Error open DB %s\n", sqlite3_errmsg(DB)); 
 		sqlite3_close(DB);
 		return 1;
 	}
-	char *sql = "SELECT hash FROM user;";
-	// strcpy(sql, "SELECT hash FROM user;");
-	// strcat(sql, "\"");
-	// strcat(sql, u);
-	// strcat(sql, "\"");
+	char sql[200];
+	strcpy(sql, "SELECT hash FROM user WHERE username=");
+	strcat(sql, "\"");
+	strcat(sql, "username");
+	strcat(sql, "\"");
 	rc = sqlite3_prepare_v2(DB, sql, -1, &stmt, 0);
 	if( rc != SQLITE_OK) {
 		printf("Error open DB %s\n", sqlite3_errmsg(DB)); 
@@ -36,15 +36,15 @@ main(void)
 	}
 	while (sqlite3_step(stmt) != SQLITE_DONE) { 
 		char *src = (char*)sqlite3_column_text(stmt, 0);
-		strcpy(hash1, src);
+		strncpy(hash1, src, 61);
 	}
 	printf("\nhash: %s", hash1);
-	printf("//////////// check pw\n\n\n");
+	printf("\n--------\n check pw\n\n\n");
 	int ok = crypt_checkpass(passwd, hash1);
 	if ( ok == 0 ) {
 		printf("password is: OK");
 	} else {
-		printf("password is failse");
+		printf("password is false");
 	}
 	sqlite3_finalize(stmt);
 	sqlite3_close(DB);

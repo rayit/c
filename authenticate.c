@@ -27,7 +27,7 @@ int checkPassword(const char *p, const char *u) {
 	sqlite3* DB;
 	sqlite3_stmt* stmt;
 	char hash1[61];
-	int rc = sqlite3_open("/tmp/_users.db", &DB);
+	int rc = sqlite3_open("/db/_users.db", &DB);
 	if( rc != SQLITE_OK) {
 		sqlite3_close(DB);
 		return 1;
@@ -38,9 +38,9 @@ int checkPassword(const char *p, const char *u) {
 	strcat(sql, u);
 	strcat(sql, "\"");
 	sqlite3_prepare_v2(DB, sql, -1, &stmt, 0);
-	while (sqlite3_step(stmt) != SQLITE_DONE) {
+	while (sqlite3_step(stmt) != SQLITE_DONE) { 
 		char *src = (char*)sqlite3_column_text(stmt, 0);
-		strcpy(hash1, src);
+		strncpy(hash1, src, 61);
 	}
 	sqlite3_finalize(stmt);
 	sqlite3_close(DB);
@@ -78,6 +78,8 @@ static void process_safe(struct kreq *r) {
 		/* TODO extra validation? */
 		khtml_elem(&req, KELEM_BR);
 		int ok = checkPassword(password, username);
+		khtml_elem(&req, KELEM_BR);
+		khtml_int(&req, ok);
 		if ( ok == 0 ) {
 			khtml_elem(&req, KELEM_I);
 			khtml_puts(&req, "Password ok");

@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 			sql = argv[2];
 			break;
 		default:
-			printf( "Use like: db_setup /var/www/cgi-bin/Users.db" );
+			printf( "Use like: db_setup /var/www/db/_users.db" );
 			break;
 	}
 	if ( dir ) {

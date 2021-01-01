@@ -2,12 +2,15 @@
 DIR="./build"
 DIR_CGI="/var/www/cgi-bin"
 DIR_WWW="/var/www/htdocs"
+DIR_DB="/var/www/db/"
 [ ! -d "$DIR" ] && mkdir -p "$DIR"
+
+doas [ ! -d "$DIR_DB" ] && doas mkdir -p "$DIR_DB"
 
 # DB user setup
 clang -static -g -W -Wall -Wextra -o build/db_setup db_setup.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm
 # TODO add column for false login etc...
-doas ./build/db_setup /var/www/tmp/_users.db "create table if not exists user \
+doas ./build/db_setup "$DIR_DB"_users.db "create table if not exists user \
 ( \
     id            INTEGER \
         primary key autoincrement, \
@@ -18,6 +21,9 @@ doas ./build/db_setup /var/www/tmp/_users.db "create table if not exists user \
 ); \
 -- TODO LOOK INTO NOT correct.. INSERT INTO user (username, appbeheer, hash) values (\"admin\", 1, \"$2b$10$t3OiYl0ZugyW5rjjVV0pzOqu8FzL8KaD4xE70p7aLvHcGjq5Pbb6qrayitx1$\");
 "
+
+# hash test
+clang -static -g -W -Wall -Wextra -o build/hash hash.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm  -ljwt -ljansson -lcrypto -lssl `pkg-config --libs kcgi-html`
 
 # kcgi
 clang -static -g -W -Wall -Wextra -o build/select_users select_users.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm  `pkg-config --static --libs kcgi` -lkcgijson
@@ -31,7 +37,8 @@ doas install -o www -g www -m 0500 build/authenticate /var/www/cgi-bin
 clang -static -g -W -Wall -Wextra -o build/jwt jwt.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm  -ljwt -ljansson -lcrypto -lssl `pkg-config --libs kcgi-html`
 
 # somehow sqlite3 does not work when main folder is not writable by www
-doas chown www /var/www/cgi-bin
+# we created new db folder in /var/www 
+# doas chown www /var/www/cgi-bin
 
 doas rcctl enable slowcgi
 doas rcctl start slowcgi

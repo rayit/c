@@ -9,24 +9,32 @@
 
 /* TODO add argv so we can pass password into */
 int
-main(void) 
+main(int argc, char *argv[]) 
 {
 	char hash1[61];
-	char *passwd = "rayrayray";
+	char *passwd;
+	
+	 switch( argc ) {
+		case 2:
+			passwd = argv[1];
+			break;
+		default:
+			printf( "Use like: hash password" );
+			return 1;
+	}
+	
 	char *pref = "bcrypt,a";
-	// char *hash = "secrethash";
 	int pw = crypt_newhash(passwd, pref, hash1, sizeof(hash1));
 	printf("\npw: %i", pw);
-	printf("\nhash: %s", hash1);
+	printf("\n\nhash: %s", hash1);
+	printf("\n\n\n");
 	
-	/*
-	printf("//////////// chech pw\n\n\n");
-	int ok = crypt_checkpass("password", hash1);
+	printf("-------- \n check pw \n ------");
+	int ok = crypt_checkpass(passwd, hash1);
 	if ( ok == 0 ) {
 		printf("password is: OK");
 	} else {
 		printf("password is failse");
 	}
-	*/
 	return 0;
 }
