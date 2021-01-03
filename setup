@@ -30,7 +30,7 @@ clang -static -g -W -Wall -Wextra -o build/select_users select_users.c -I /usr/l
 doas install -o www -g www -m 0500 build/select_users /var/www/cgi-bin
 
 # Authentication
-clang -static -g -W -Wall -Wextra -o build/authenticate authenticate.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm `pkg-config --libs kcgi-html`
+clang -static -g -W -Wall -Wextra -o build/authenticate authenticate.c -I /usr/local/include -L /usr/local/lib -pthread -lsqlite3 -lm -ljwt -ljansson -lcrypto -lssl  -lkcgijson  `pkg-config --libs kcgi`
 doas install -o www -g www -m 0500 build/authenticate /var/www/cgi-bin
 
 # jwt test

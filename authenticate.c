@@ -1,15 +1,13 @@
-#include <err.h>
-#include <errno.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
+#include <jwt.h>
  
 #include <kcgi.h>
 #include <kcgijson.h>
-#include <kcgihtml.h>
 #include <sqlite3.h>
 
 enum key {
@@ -56,49 +54,116 @@ static const struct kvalid keys[KEY__MAX] = {
 	{ kvalid_stringne, "password" },
 };
 
-static void process_safe(struct kreq *r) {
+const char *createJwt(const char *username) {
+	char opt_key_name[200] = "/private.pem";
+	jwt_alg_t opt_alg = JWT_ALG_RS256;
+	int ret = 0;
+	jwt_t *jwt;
+	time_t iat = time(NULL);
+	unsigned char key[10240];
+	size_t key_len = 0;
+	FILE *fp_priv_key;
+	
+	ret = jwt_new(&jwt);
+	
+	/* Load key pem from file */
+	/* TODO check file present */
+	fp_priv_key = fopen(opt_key_name, "r");
+	key_len = fread(key, 1, sizeof(key), fp_priv_key);
+	fclose(fp_priv_key);
+	key[key_len] = '\0';
+	
+	/* add grant */
+	ret = jwt_add_grant_int(jwt, "iat", iat);
+	jwt_add_grant(jwt, "username", username);
+	// jwt_add_grant(jwt, "admin", "1");
+	ret = jwt_set_alg(jwt, opt_alg, key, key_len);
+	if (ret < 0) {
+		jwt_free(jwt);
+		return "ERROR";
+	}
+	jwt_dump_fp(jwt, stderr, 1);
+	char *out = jwt_encode_str(jwt);
+	// jwt_free_str(out);
+	jwt_free(jwt);
+	return out;
+}
+
+static void process_safe(struct kreq r) {
 	struct kpair *p;
 	struct kpair *u;
-	struct khtmlreq req;
+	struct kjsonreq req;
 	const char *username;
 	const char *password;
-	khtml_open(&req, r, 0);
-	khtml_elem(&req, KELEM_P);
-	khtml_puts(&req, "---");
+
 	/* Check for password and username */
-	if ((p = r->fieldmap[KEY_PASSWORD]) && (u = r->fieldmap[KEY_USERNAME])) {
+	if ((p = r.fieldmap[KEY_PASSWORD]) && (u = r.fieldmap[KEY_USERNAME])) {
 		username = u->parsed.s;
 		password = p->parsed.s;
-		khtml_elem(&req, KELEM_I);
-		khtml_puts(&req, "Username: ");
-		khtml_puts(&req, username);
-		khtml_elem(&req, KELEM_BR);
-		khtml_puts(&req, "Password: ");
-		khtml_puts(&req, password);
 		/* TODO extra validation? */
-		khtml_elem(&req, KELEM_BR);
+		/* JSON */
 		int ok = checkPassword(password, username);
-		khtml_elem(&req, KELEM_BR);
-		khtml_int(&req, ok);
 		if ( ok == 0 ) {
-			khtml_elem(&req, KELEM_I);
-			khtml_puts(&req, "Password ok");
+			khttp_head(&r, kresps[KRESP_STATUS], 
+				"%s", khttps[KHTTP_200]);
+			khttp_head(&r, kresps[KRESP_CONTENT_TYPE], 
+				"%s", kmimetypes[r.mime]);
+			khttp_body(&r);
+			kjson_open(&req, &r);
+			kjson_obj_open(&req);
+			/* Return jwt and json */
+			const char *jwt = createJwt(username);
+			kjson_obj_open(&req);
+			// kjson_putintp(&req, "id", id);
+			kjson_putstringp(&req, "username", username);
+			kjson_putstringp(&req, "jwt", jwt);
+			kjson_obj_close(&req);
+			kjson_close(&req);
 		} else {
-			khtml_elem(&req, KELEM_I);
-			khtml_puts(&req, "Password false");
+			khttp_head(&r, kresps[KRESP_STATUS], 
+				"%s", khttps[KHTTP_403]);
+			khttp_head(&r, kresps[KRESP_CONTENT_TYPE], 
+				"%s", kmimetypes[r.mime]);
+			khttp_body(&r);
+			kjson_open(&req, &r);
+			kjson_obj_open(&req);
+			kjson_putstringp(&req, "error", "Password false");
+			kjson_obj_close(&req);
+			kjson_close(&req);
 		}
-	} else if (r->fieldnmap[KEY_USERNAME] || r->fieldnmap[KEY_PASSWORD]) {
-		khtml_elem(&req, KELEM_I);
-		khtml_puts(&req, "failed parse");
+	} else if (r.fieldnmap[KEY_USERNAME] || r.fieldnmap[KEY_PASSWORD]) {
+		khttp_head(&r, kresps[KRESP_STATUS], 
+			"%s", khttps[KHTTP_500]);
+		khttp_head(&r, kresps[KRESP_CONTENT_TYPE], 
+			"%s", kmimetypes[r.mime]);
+		khttp_body(&r);
+		kjson_open(&req, &r);
+		kjson_obj_open(&req);
+		kjson_putstringp(&req, "error", "failed parse");
+		kjson_obj_close(&req);
+		kjson_close(&req);
 	} else {
-		khtml_elem(&req, KELEM_I);
-		khtml_puts(&req, "not provided");
+		khttp_head(&r, kresps[KRESP_STATUS], 
+			"%s", khttps[KHTTP_400]);
+		khttp_head(&r, kresps[KRESP_CONTENT_TYPE], 
+			"%s", kmimetypes[r.mime]);
+		khttp_body(&r);
+		kjson_open(&req, &r);
+		kjson_obj_open(&req);
+		kjson_putstringp(&req, "error", "missing values");
+		kjson_obj_close(&req);
+		kjson_close(&req);
 	}
-	khtml_close(&req);
+
 }
 
 static enum khttp sanitise(const struct kreq *r) {
-	if (r->page != PAGE_INDEX)
+	//if ( r->method == KMETHOD_OPTIONS )
+	//	return KHTTP_200;
+	//else
+	if (r->method == KMETHOD_POST ) 
+		return KHTTP_200;
+	else if (r->page != PAGE_INDEX)
 		return KHTTP_404;
 	else if (*r->path != '\0') /* no index/xxxx */
 		return KHTTP_404;
@@ -108,7 +173,6 @@ static enum khttp sanitise(const struct kreq *r) {
 		return KHTTP_405;
   return KHTTP_200;
 }
-
 
 int
 main(void)
@@ -127,12 +191,7 @@ main(void)
 		if (KMIME_TEXT_HTML == r.mime)
 			khttp_puts(&r, "Could not service request.");
 	} else {
-		khttp_head(&r, kresps[KRESP_STATUS],
-			"%s", khttps[KHTTP_200]);
-		khttp_head(&r, kresps[KRESP_CONTENT_TYPE],
-			"%s", kmimetypes[r.mime]);
-		khttp_body(&r);
-		process_safe(&r);
+		process_safe(r);
 	}
 	khttp_free(&r);
 	return 0;

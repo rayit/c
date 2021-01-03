@@ -29,8 +29,9 @@ int main(void)
 	
 	/* add grant */
 	ret = jwt_add_grant_int(jwt, "iat", iat);
-	fprintf(stderr, "Adding claim %s with valu %s\n", "test", "test");
-	jwt_add_grant(jwt, "test", "test");
+	fprintf(stderr, "Adding claim %s with value %s\n", "test", "test");
+	jwt_add_grant(jwt, "username", "rayit");
+	jwt_add_grant(jwt, "admin", "1");
 
 	ret = jwt_set_alg(jwt, opt_alg, key, key_len);
 	if (ret < 0) {
