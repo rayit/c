@@ -14,7 +14,7 @@ Goal is to make an easy website which uses c as backend. \
 		git clone https://github.com/benmcollins/libjwt.git
 		cd libjwt
 		cmake .
-		doas cmake install
+		doas make install
 		
 		```sh
 		#include <jwt.h>
@@ -80,6 +80,7 @@ types {
 }
 ```
 
+doas pkg_add cmake
 doas pkg_add sqlite3
 
 doas pkg_add jansson kcgi
