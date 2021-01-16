@@ -82,6 +82,8 @@ types {
 
 doas pkg_add sqlite3
 
+doas pkg_add jansson kcgi
+
 Ispiration and tutorials:
 https://learnbchs.org/
 http://zetcode.com/db/sqlitec/
