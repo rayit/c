@@ -6,6 +6,7 @@ Goal is to make an easy website which uses c as backend. \
 - Login 
 	1. login
 		Endpoint
+		{ipaddress}/cgi-bin/authenticate?username=xxxxxxx&password=xxxxxxx
 	2. check username and pw
 		using: [https://man.openbsd.org/crypt_checkpass.3#crypt_newhash]
     3. generate JWT token 
@@ -15,7 +16,7 @@ Goal is to make an easy website which uses c as backend. \
 		cmake .
 		doas cmake install
 		
-		
+		```sh
 		#include <jwt.h>
 		
 		# ssh-keygen -t rsa -b 4096 -m PEM -f jwtRS256.key
@@ -26,9 +27,11 @@ Goal is to make an easy website which uses c as backend. \
 		
 		# extract public
 		openssl rsa -in private.pem -outform PEM -pubout -out public.pem
-
+		```
 		
-- Login failure log.. (add fail in log)
+### Todo
+- JWT validation
+- Login failure log.. (add fail in log) 
 		
 - Look into PLEDGE
 - Show data

@@ -15,6 +15,7 @@ main(void)
 	struct kreq r;
 	struct kjsonreq req;
 	const char *page = "index";
+	// TODO check for x-auth-bearer JWT
    
 	// DB
 	sqlite3 *DB;
